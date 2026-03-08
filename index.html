@@ -120,6 +120,64 @@
         .menu-item { padding: 12px 16px; font-size: 14px; border-radius: 10px; cursor: pointer; color: white; }
         .menu-item:hover { background: var(--ios-blue); }
         ::-webkit-scrollbar { width: 0px; }
+
+        /* 手机端响应式适配 */
+        @media (max-width: 768px) {
+            .master-container {
+                flex-direction: column;
+                height: 100vh;
+                width: 100%;
+                border-radius: 0;
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .player-hero {
+                flex: none;
+                height: 60vh;
+                padding: 20px;
+                justify-content: space-around;
+            }
+
+            .cover-art {
+                width: 60vw;
+                height: 60vw;
+                max-width: 300px;
+                max-height: 300px;
+                margin-bottom: 20px;
+                font-size: 80px;
+            }
+
+            .song-meta h1 {
+                font-size: 24px;
+            }
+
+            .song-meta p {
+                font-size: 16px;
+            }
+
+            .main-controls {
+                gap: 30px;
+            }
+
+            .play-trigger {
+                font-size: 56px;
+                width: 60px;
+                height: 60px;
+            }
+
+            .nav-btn {
+                font-size: 32px;
+            }
+
+            .sidebar {
+                flex: 1;
+            }
+
+            .audio-card {
+                padding: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -167,6 +225,14 @@
     const ctxMenu = document.getElementById('contextMenu');
     let draggedTrackId = null;
 
+    // --- 核心修复：自动生成适配本地/云端的音频URL ---
+    function getAudioUrl(filename) {
+        // 获取当前页面的根路径（自动适配本地/云端）
+        const baseUrl = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '/');
+        // 拼接音频文件的完整路径
+        return baseUrl + 'audio/' + filename;
+    }
+
     // --- 初始化与文件扫描 ---
     async function init() {
         // 如果当前没有分组或者只有空的本地导入，尝试加载 JSON
@@ -174,14 +240,18 @@
             try {
                 const response = await fetch('./data/playlist.json');
                 const data = await response.json();
-                if (data.playlist) {
+                if (data.playlist || data.播放列表) {
+                    // 兼容两种 playlist.json 格式（playlist 或 播放列表）
+                    const trackList = data.playlist || data.播放列表;
                     state.groups.push({
                         id: 'g_remote',
                         name: '预设清单',
-                        tracks: data.playlist.map(t => ({
+                        tracks: trackList.map(t => ({
                             ...t,
                             id: 't_' + Math.random().toString(36).substr(2, 9),
-                            name: t.filename
+                            name: t.filename || t.文件名,
+                            // 使用自动生成的URL替换原来的本地URL
+                            url: getAudioUrl(t.filename || t.文件名)
                         }))
                     });
                     document.getElementById('artistDisplay').innerText = "已加载预设清单";
@@ -243,7 +313,7 @@
             render();
         }).catch(err => {
             console.error("无法播放，可能是路径错误或文件丢失", err);
-            alert("无法读取该音频文件路径");
+            alert(`无法读取音频文件：${track.name}\n请检查文件是否已上传到 GitHub 的 audio 文件夹`);
         });
     }
 
@@ -332,6 +402,28 @@
         document.getElementById('progressBar').onclick = (e) => {
             const rect = e.target.getBoundingClientRect();
             audio.currentTime = ((e.clientX - rect.left) / rect.width) * audio.duration;
+        };
+
+        // 上一首/下一首功能
+        document.getElementById('prevBtn').onclick = () => {
+            const currentGroup = state.groups.find(g => g.tracks.some(t => t.id === state.currentTrackId));
+            if (!currentGroup) return;
+            const currentIdx = currentGroup.tracks.findIndex(t => t.id === state.currentTrackId);
+            if (currentIdx > 0) {
+                playTrack(currentGroup.tracks[currentIdx - 1]);
+            }
+        };
+
+        document.getElementById('nextBtn').onclick = () => {
+            const currentGroup = state.groups.find(g => g.tracks.some(t => t.id === state.currentTrackId));
+            if (!currentGroup) return;
+            const currentIdx = currentGroup.tracks.findIndex(t => t.id === state.currentTrackId);
+            if (currentIdx < currentGroup.tracks.length - 1) {
+                playTrack(currentGroup.tracks[currentIdx + 1]);
+            } else {
+                // 循环播放
+                playTrack(currentGroup.tracks[0]);
+            }
         };
     }
 
