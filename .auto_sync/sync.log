@@ -48512,3 +48512,27 @@ error: Please commit or stash them.
 等待下一次变动...
 ----------------------------------------
 等待下一次变动...
+========================================
+2026-03-08 12:51:29 监控服务启动
+监控目标:
+  - /Users/vv/.minimax-agent-cn/projects/2/wechat-audio-archive/audio/ (音频文件夹)
+  - /Users/vv/.minimax-agent-cn/projects/2/wechat-audio-archive/data/playlist.json (播放列表)
+========================================
+✅ 使用 fswatch: /opt/homebrew/bin/fswatch
+监控进程 PID: 9841
+audio 监控进程 PID: 9846
+playlist.json 监控进程 PID: 9848
+监控服务运行中，按 Ctrl+C 停止
+[2026-03-08 12:57:58] 检查同步条件...
+[2026-03-08 12:57:58] ========== 开始同步 ==========
+[2026-03-08 12:57:59] 检测到变动:
+M	audio/.DS_Store
+A	audio/test_auto_upload.mp3
+R100	"audio/26.0307-1us\345\274\271\350\215\257\347\232\204\346\267\261\345\272\246\351\227\256\351\242\230\343\200\202.m4a"	"audio/\346\265\213\350\257\2252.m4a"
+A	"audio/\346\265\213\350\257\2253.m4a"
+[2026-03-08 12:57:59] 执行 git pull --rebase...
+error: cannot pull with rebase: You have unstaged changes.
+error: additionally, your index contains uncommitted changes.
+error: Please commit or stash them.
+[2026-03-08 12:57:59] ⚠️ 拉取失败，可能有冲突
+[2026-03-08 12:57:59] 请手动解决冲突后重新运行
