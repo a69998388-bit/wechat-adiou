@@ -11972,3 +11972,45 @@ To github.com:a69998388-bit/wechat-adiou.git
 ----------------------------------------
 2026-03-08 11:14:10 检测到文件变动，触发同步...
 [2026-03-08 11:14:10] 检查文件变动...
+To github.com:a69998388-bit/wechat-adiou.git
+ ! [remote rejected] main -> main (cannot lock ref 'refs/heads/main': is at b93618260b336bbb879e2cd1fd26da73734ab316 but expected ce23b9e45a03505acdd2d2e5b2df24a823804439)
+error: failed to push some refs to 'github.com:a69998388-bit/wechat-adiou.git'
+[2026-03-08 11:14:07] ❌ 推送失败
+----------------------------------------
+等待下一次变动...
+
+----------------------------------------
+2026-03-08 11:14:10 检测到文件变动，触发同步...
+[2026-03-08 11:14:10] 检测到变动，正在提交...
+[2026-03-08 11:14:10] 检查文件变动...
+[main 4cb242e] Auto update: 2026-03-08 11:14:10
+ Committer: vv <vv@vvdeMacBook-Air.local>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 1 file changed, 26 insertions(+)
+[2026-03-08 11:14:10] 提交成功，正在推送到 GitHub...
+[2026-03-08 11:14:10] 检测到变动，正在提交...
+On branch main
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   .auto_sync/sync.log
+
+no changes added to commit (use "git add" and/or "git commit -a")
+[2026-03-08 11:14:10] ❌ 提交失败
+----------------------------------------
+等待下一次变动...
+
+----------------------------------------
+2026-03-08 11:14:10 检测到文件变动，触发同步...
+[2026-03-08 11:14:10] 检查文件变动...
